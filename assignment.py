@@ -4,17 +4,9 @@ from utils import load, plot_sample
 from PIL import Image
 import matplotlib.pyplot as plt
 from collections import Counter
-# =========================================
-#       Homework on K-Nearest Neighbors
-# =========================================
-# Course: Introduction to Information Theory
-# Lecturer: Haim H. Permuter.
-#
-# NOTE:
-# -----
-# Please change the variable ID below to your ID number as a string.
-# Please do it now and save this file before doing the assignment
+from KNN_classify import KNN_classify
 
+# Course: Machine Learning & Introduction to Information Theory
 ID = '312349509'
 
 # Loading and plot a sample of the data
@@ -24,8 +16,9 @@ ID = '312349509'
 # This database is a benchmark for many classification algorithms, including neural networks.
 # For further reading, visit http://yann.lecun.com/exdb/mnist/
 #
-# You will implement the KNN algorithm to classify two digits from the database: 3 and 5.
+# Here we implement the KNN algorithm to classify two digits from the database: 3 and 5.
 # First, we will load the data from .MAT file we have prepared for this assignment: MNIST_3_and_5.mat
+#________________________________________
 
 Xtrain, Ytrain, Xvalid, Yvalid, Xtest = load('MNIST_3_and_5.mat')
 
@@ -37,7 +30,7 @@ Xtrain, Ytrain, Xvalid, Yvalid, Xtest = load('MNIST_3_and_5.mat')
 # and the digit (number) is in the corresponding row of the Y vector.
 #
 # To plot the digit, see attached function 'plot_sample.py'
-
+#____________________________________________________________
 sampleNum = 0
 plot_sample(Xvalid[sampleNum, :], Yvalid[sampleNum, :])
 
@@ -50,44 +43,16 @@ plot_sample(Xvalid[sampleNum, :], Yvalid[sampleNum, :])
 #
 # Note:
 # ------
-# For you conveniece (and ours), give you classifications in a 1902 x 1 vector named Ytest,
-# and set the variable ID at the beginning of this file to your ID.
 
 training_data = [Xtrain,Ytrain]
-def KNN_classify(k,X,training_data):
-    Xtrain = training_data[0]
-    Ytrain = training_data[1]
-    d = {}
-    # Iterate for each training datapoint:
-    # ------
-
-    for i, digit in enumerate(Xtrain):
-
-        #plot_sample(digit,[3])
-
-        # calc auclidien distanse:
-        # -then save in a HashTable
-        distance = np.linalg.norm(X - digit)
-        d[i] = distance
-
-    #get K minimum distance neighbors
-    K = sorted(d, key=d.get)[:k]
-    arr = []
-    #run over each of nearest n's, and count them.
-    for index in K:
-
-        neigh = Ytrain[index]
-        arr.append(neigh[0])
-    c = Counter(arr)
-
-    return c.most_common()[0][0]  #return the most common digit among k neighbors
-
+Ytest = np.array([])
 for X in Xtest:
-    guess = KNN_classify(5,X)
-    plot_sample(X,[guess])
+    guess = KNN_classify(5,X,training_data)
+    Ytest = np.append(Ytest, guess)
+    #plot_sample(X,[guess])
     # Example submission array - comment/delete it before submitting:
 
-Ytest = np.arange(0, Xtest.shape[0])
+
 
 # save classification results
 print('saving')
