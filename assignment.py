@@ -33,28 +33,53 @@ Xtrain, Ytrain, Xvalid, Yvalid, Xtest = load('MNIST_3_and_5.mat')
 #____________________________________________________________
 sampleNum = 0
 plot_sample(Xvalid[sampleNum, :], Yvalid[sampleNum, :])
-
-# Build a KNN classifier based on what you've learned in class:
-#
-# 1. The classifier should be given a train dataset (Xtrain, Ytain),  and a test sample Xtest.
-# 2. The classifier should return a class for each row in test sample in a column vector Ytest.
-#
-# Finally, your results will be saved into a <ID>.txt file, where each row is an element in Ytest.
-#
-# Note:
-# ------
-
+"""
+______________________________________________________________________
+to test your own KNN code, load your training data here:            
+X is the observations array (ie. a pictures)
+Y is the labels array
+______________________________________________________________________
+"""
 training_data = [Xtrain,Ytrain]
+
+"""
+________________________________________________________________________
+this section is here for us to varify our algorithm                     |
+by running it on a valid dataset, NOT a part of the training data       |
+it will point out the pictures and labels that the algorithm did not    |
+identify correctly and show their labels                                |
+________________________________________________________________________|
+"""
+
+# Yv = np.array([])
+# n = 0
+# for i, X in enumerate(Xvalid):
+#     guess = KNN_classify(3,X,training_data)
+#     if guess != Yvalid[i][0]:
+#         print(i,":  ",guess, " - ",Yvalid[i], " = ", guess - Yvalid[i])
+#         plot_sample(X, [guess])
+#         n+=1
+#
+# print(n)
+
+"""
+________________________________________________________________________
+this section is here for classification of an unlabeld set of data      |
+it will NOT point out the pictures mistakes!                            |
+so it is recommended to first validate your KNN model.                  |
+when you are done with validation, its time to comment it               |
+out (by selecting it and pressing CTRL + /) and move to this segment    |
+________________________________________________________________________|
+"""
+
+
 Ytest = np.array([])
 for X in Xtest:
-    guess = KNN_classify(5,X,training_data)
+    guess = KNN_classify(5, X, training_data)
     Ytest = np.append(Ytest, guess)
-    #plot_sample(X,[guess])
-    # Example submission array - comment/delete it before submitting:
 
 
 
-# save classification results
 print('saving')
 np.savetxt(f'{ID}.txt', Ytest, delimiter=", ", fmt='%i')
 print('done')
